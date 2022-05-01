@@ -132,15 +132,6 @@ render() {
 			</header>
 
 			<canvas id="canvas" width="431" height="768"></canvas>
-			<header>
-				<h1>Floppy Bird</h1>
-				<div className="score-container">
-					<div id="bestScore"></div>
-					<div id="currentScore"></div>
-				</div>
-			</header>
-
-			<canvas id="canvas" width="431" height="768"></canvas>
 		</div>
 
 	);
