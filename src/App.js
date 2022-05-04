@@ -18,7 +18,7 @@ class App extends Component {
 		const canvas = document.getElementById('canvas');
 		const ctx = canvas.getContext('2d');
 
-		canvas.height = window.innerHeight - document.querySelector('header').clientHeight;
+		canvas.height = window.innerHeight - document.querySelector('header').clientHeight; // it must be changed
 		canvas.width = window.innerWidth;
 
 
@@ -44,12 +44,13 @@ class App extends Component {
 
 
 // general settings
-		const kHeight = canvas.height / 730;
+// 		const kHeight = canvas.height / 730;
+		const kHeight = canvas.height / 600;
 		const kWidth = canvas.width / 431;
 
 		let gamePlaying = false;
 		const gravity = .5;
-		const speed = 6.2;
+		const speed = 5.2;
 		const size = [51, 36]; // must be changed in another picture
 		const jump = -11.5;
 		const cTenth = (canvas.width / 10);
@@ -130,7 +131,7 @@ class App extends Component {
 
 
 					// give 1 point & create new pipe
-					if(pipe[0] <= -topPipe.width){
+					if(pipe[0] < -topPipe.width * kWidth){
 						currentScore++;
 						// check if it's the best score
 						bestScore = Math.max(bestScore, currentScore);
@@ -153,13 +154,15 @@ class App extends Component {
 					fillEllipse(pipe[0], pipe[1] + spaceBetweenPipe, 5, 5, 0, 'blue')
 					fillEllipse(pipe[0], pipe[1], 5, 5, 0, 'blue')
 					fillEllipse(cTenth + size[0], flyHeight + size[1], 5, 5, 0, 'red')
-					console.log(pipe[0], pipe[1], spaceBetweenPipe)
 					*/
+
+					console.log(pipe[0], pipe[1], spaceBetweenPipe)
+
 
 					// if hit the pipe, end
 					if ([
 						pipe[0] <= cTenth + size[0],
-						pipe[0] + topPipe.width >= cTenth,
+						pipe[0] + topPipe.width * kWidth >= cTenth,
 						pipe[1] > flyHeight || ((pipe[1] + spaceBetweenPipe) < (flyHeight + size[1]))
 					].every(elem => elem)) {
 						console.log('HIT', pipes)
