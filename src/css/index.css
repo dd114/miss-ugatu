@@ -8,10 +8,10 @@ body {
 }
 header {
     margin: 0 auto;
-    width: 431px;
+    width: 100%;
 }
 h1 {
-    background: url("https://i.ibb.co/TRzPX3Y/clouds.png");
+    background: url("./../img/clouds.png");
     padding: 1.2rem 0;
     margin: 0;
 }
@@ -22,11 +22,10 @@ h1 {
     background: #5EE270;
 }
 
-/*
 canvas {
-    !*position: absolute;*!
+    /*position: absolute;*/
     top: 0;
     left: 0;
-    width: 431px;
-    height: 100vh;
-}*/
+    width: 100%;
+    /*height: 100vh;*/
+}

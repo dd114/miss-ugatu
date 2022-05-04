@@ -3,12 +3,25 @@ import bridge from '@vkontakte/vk-bridge';
 import { View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol } from '@vkontakte/vkui';
 // import '@vkontakte/vkui/dist/vkui.css';
 
+import backgroundImg from './img/background.png'
+import topPipeImg from './img/topPipe.png'
+import bottomPipeImg from './img/bottomPipe.png'
+import bird1Img from './img/bird1.png'
+import bird2Img from './img/bird2.png'
+import bird3Img from './img/bird3.png'
+
+
 class App extends Component {
 
 	componentDidMount(){
+
 		const canvas = document.getElementById('canvas');
 		const ctx = canvas.getContext('2d');
-		
+
+		canvas.height = window.innerHeight - document.querySelector('header').clientHeight;
+		canvas.width = window.innerWidth;
+
+
 		const background = new Image()
 		const topPipe = new Image()
 		const bottomPipe = new Image()
@@ -16,29 +29,33 @@ class App extends Component {
 		const bird2 = new Image()
 		const bird3 = new Image()
 		const birds = [bird1, bird2, bird3]
-		
-		background.src = "https://i.ibb.co/TH4dXYh/background.png"
-		topPipe.src = "https://i.ibb.co/Sv0gWQt/topPipe.png"
-		bottomPipe.src = "https://i.ibb.co/5BvD5Lw/bottom-Pipe.png"
-		bird1.src = "https://i.ibb.co/mt8098S/bird1.png"
-		bird2.src = "https://i.ibb.co/Vw854hc/bird2.png"
-		bird3.src = "https://i.ibb.co/C2c7cWP/bird3.png"
 
-		if (topPipe.width === bottomPipe.width && topPipe.height === bottomPipe.height) console.log("Correct")
-		else console.log("INCORRECT")
+		background.src = backgroundImg
+		topPipe.src = topPipeImg
+		bottomPipe.src = bottomPipeImg
+		bird1.src = bird1Img
+		bird2.src = bird2Img
+		bird3.src = bird3Img
+
+		if (topPipe.width === bottomPipe.width && topPipe.height === bottomPipe.height)
+			console.log("Correct")
+		else
+			console.log("INCORRECT")
 
 
 // general settings
+		const kHeight = canvas.height / 730;
+		const kWidth = canvas.width / 431;
+
 		let gamePlaying = false;
 		const gravity = .5;
 		const speed = 6.2;
-		const size = [bird1.width, bird1.height];
+		const size = [51, 36]; // must be changed in another picture
 		const jump = -11.5;
 		const cTenth = (canvas.width / 10);
 		const spaceBetweenPipe = 4 * size[0]
 
-		const kHeight = canvas.height / 768;
-		const kWidth = canvas.width / 431;
+
 
 		let index = 0,
 			bestScore = 0,
@@ -49,7 +66,6 @@ class App extends Component {
 
 
 
-		canvas.height = window.innerHeight;
 
 		console.log(canvas.width, canvas.height)
 
@@ -58,7 +74,7 @@ class App extends Component {
 
 
 // pipe settings
-		const pipeGap = 0.7 * canvas.width;
+		const pipeGap = 0.7 * canvas.width * kWidth;
 		const pipeLoc = () => ((Math.random() * (canvas.height - spaceBetweenPipe)) % topPipe.height);
 
 
@@ -79,7 +95,9 @@ class App extends Component {
 			// setup first 3 pipes
 			pipes = Array(3).fill().map((a, i) => {
 				// console.log(a, i);
-				return [canvas.width + (i * (pipeGap + topPipe.width)), pipeLoc()]
+				let height = pipeLoc()
+				// console.log(height, typeof height)
+				return [canvas.width + (i * (pipeGap + topPipe.width)), height]
 			});
 		}
 
@@ -106,9 +124,9 @@ class App extends Component {
 					pipe[0] -= speed;
 
 					// top pipe
-					ctx.drawImage(topPipe, pipe[0], pipe[1] - topPipe.height, topPipe.width, topPipe.height);
+					ctx.drawImage(topPipe, pipe[0], pipe[1] - topPipe.height * kHeight, topPipe.width * kWidth, topPipe.height * kHeight);
 					// bottom pipe
-					ctx.drawImage(bottomPipe, pipe[0], pipe[1] + spaceBetweenPipe, bottomPipe.width, bottomPipe.height);
+					ctx.drawImage(bottomPipe, pipe[0], pipe[1] + spaceBetweenPipe, bottomPipe.width * kWidth, bottomPipe.height * kHeight);
 
 
 					// give 1 point & create new pipe
@@ -131,16 +149,21 @@ class App extends Component {
 					])
 					*/
 
-					// fillEllipse(pipe[0], pipe[1] + spaceBetweenPipe, 5, 5, 0, 'blue')
-					// fillEllipse(cTenth + size[0], flyHeight + size[1], 5, 5, 0, 'red')
-					
+					/*
+					fillEllipse(pipe[0], pipe[1] + spaceBetweenPipe, 5, 5, 0, 'blue')
+					fillEllipse(pipe[0], pipe[1], 5, 5, 0, 'blue')
+					fillEllipse(cTenth + size[0], flyHeight + size[1], 5, 5, 0, 'red')
+					console.log(pipe[0], pipe[1], spaceBetweenPipe)
+					*/
+
 					// if hit the pipe, end
 					if ([
 						pipe[0] <= cTenth + size[0],
 						pipe[0] + topPipe.width >= cTenth,
 						pipe[1] > flyHeight || ((pipe[1] + spaceBetweenPipe) < (flyHeight + size[1]))
 					].every(elem => elem)) {
-
+						console.log('HIT', pipes)
+						console.log('Size', size)
 						gamePlaying = false;
 						setup();
 					}
