@@ -126,8 +126,14 @@ class App extends Component {
 		img.onload = render;
 
 // start game
-		document.addEventListener('click', () => gamePlaying = true);
-		window.onclick = () => flight = jump;
+		document.addEventListener('click', () => {
+			// console.log("addEventListener")
+			gamePlaying = true
+		});
+		window.onclick = () => {
+			// console.log("onclick")
+			flight = jump;
+		}
 
 		// console.log(gamePlaying)
 	}
