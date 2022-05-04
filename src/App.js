@@ -8,8 +8,7 @@ class App extends Component {
 	componentDidMount(){
 		const canvas = document.getElementById('canvas');
 		const ctx = canvas.getContext('2d');
-
-		const img = new Image();
+		
 		const background = new Image()
 		const topPipe = new Image()
 		const bottomPipe = new Image()
@@ -17,8 +16,7 @@ class App extends Component {
 		const bird2 = new Image()
 		const bird3 = new Image()
 		const birds = [bird1, bird2, bird3]
-
-		img.src = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
+		
 		background.src = "https://i.ibb.co/TH4dXYh/background.png"
 		topPipe.src = "https://i.ibb.co/Sv0gWQt/topPipe.png"
 		bottomPipe.src = "https://i.ibb.co/5BvD5Lw/bottom-Pipe.png"
@@ -39,6 +37,9 @@ class App extends Component {
 		const cTenth = (canvas.width / 10);
 		const spaceBetweenPipe = 4 * size[0]
 
+		const kHeight = canvas.height / 768;
+		const kWidth = canvas.width / 431;
+
 		let index = 0,
 			bestScore = 0,
 			flight,
@@ -57,9 +58,16 @@ class App extends Component {
 
 
 // pipe settings
-		const pipeWidth = 78;
-		const pipeGap = 270;
+		const pipeGap = 0.7 * canvas.width;
 		const pipeLoc = () => ((Math.random() * (canvas.height - spaceBetweenPipe)) % topPipe.height);
+
+
+		const fillEllipse = (x, y, radiusX, radiusY, rotation, color) => {
+			ctx.fillStyle = color;
+			ctx.beginPath();
+			ctx.ellipse(x, y, radiusX, radiusY, rotation, 0, 2 * Math.PI);
+			ctx.fill();
+		}
 
 		const setup = () => {
 			currentScore = 0;
@@ -71,7 +79,7 @@ class App extends Component {
 			// setup first 3 pipes
 			pipes = Array(3).fill().map((a, i) => {
 				// console.log(a, i);
-				return [canvas.width + (i * (pipeGap + pipeWidth)), pipeLoc()]
+				return [canvas.width + (i * (pipeGap + topPipe.width)), pipeLoc()]
 			});
 		}
 
@@ -88,6 +96,9 @@ class App extends Component {
 			// background second part
 			ctx.drawImage(background, -(index * (speed / 2)) % canvas.width, 0, canvas.width, canvas.height);
 
+
+
+
 			// pipe display
 			if (gamePlaying){
 				pipes.map(pipe => {
@@ -101,22 +112,35 @@ class App extends Component {
 
 
 					// give 1 point & create new pipe
-					if(pipe[0] <= -pipeWidth){
+					if(pipe[0] <= -topPipe.width){
 						currentScore++;
 						// check if it's the best score
 						bestScore = Math.max(bestScore, currentScore);
 
 						// remove & create new pipe
-						pipes = [...pipes.slice(1), [pipes[pipes.length-1][0] + pipeGap + pipeWidth, pipeLoc()]];
+						pipes = [...pipes.slice(1), [pipes[pipes.length-1][0] + pipeGap + topPipe.width, pipeLoc()]];
 						console.log(pipes);
 					}
 
+
+					/*
+					console.log([
+						pipe[0] <= cTenth + size[0],
+						pipe[0] + topPipe.width >= cTenth,
+						pipe[1] > flyHeight || ((pipe[1] + spaceBetweenPipe) < (flyHeight + size[1]))
+					])
+					*/
+
+					// fillEllipse(pipe[0], pipe[1] + spaceBetweenPipe, 5, 5, 0, 'blue')
+					// fillEllipse(cTenth + size[0], flyHeight + size[1], 5, 5, 0, 'red')
+					
 					// if hit the pipe, end
 					if ([
 						pipe[0] <= cTenth + size[0],
-						pipe[0] + pipeWidth >= cTenth,
-						pipe[1] > flyHeight || pipe[1] + pipeGap < flyHeight + size[1]
+						pipe[0] + topPipe.width >= cTenth,
+						pipe[1] > flyHeight || ((pipe[1] + spaceBetweenPipe) < (flyHeight + size[1]))
 					].every(elem => elem)) {
+
 						gamePlaying = false;
 						setup();
 					}
