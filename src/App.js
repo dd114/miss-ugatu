@@ -8,11 +8,24 @@ class App extends Component {
 	componentDidMount(){
 		const canvas = document.getElementById('canvas');
 		const ctx = canvas.getContext('2d');
-		const img = new Image();
-		img.src = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
 
+		const img = new Image();
 		const background = new Image()
+		const topPipe = new Image()
+		const bottomPipe = new Image()
+		const bird1 = new Image()
+		const bird2 = new Image()
+		const bird3 = new Image()
+
+		img.src = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
 		background.src = "https://i.ibb.co/TH4dXYh/background.png"
+		topPipe.src = "https://i.ibb.co/Sv0gWQt/topPipe.png"
+		bottomPipe.src = "https://i.ibb.co/5BvD5Lw/bottom-Pipe.png"
+		bird1.src = "https://i.ibb.co/mt8098S/bird1.png"
+		bird2.src = "https://i.ibb.co/Vw854hc/bird2.png"
+		bird3.src = "https://i.ibb.co/C2c7cWP/bird3.png"
+
+
 
 // general settings
 		let gamePlaying = false;
@@ -42,7 +55,7 @@ class App extends Component {
 // pipe settings
 		const pipeWidth = 78;
 		const pipeGap = 270;
-		const pipeLoc = () => (Math.random() * ((canvas.height - (pipeGap + pipeWidth)) - pipeWidth)) + pipeWidth;
+		const pipeLoc = () => (Math.random() * (canvas.height - pipeGap));
 
 		const setup = () => {
 			currentScore = 0;
