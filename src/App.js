@@ -16,6 +16,7 @@ class App extends Component {
 		const bird1 = new Image()
 		const bird2 = new Image()
 		const bird3 = new Image()
+		const birds = [bird1, bird2, bird3]
 
 		img.src = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
 		background.src = "https://i.ibb.co/TH4dXYh/background.png"
@@ -75,6 +76,8 @@ class App extends Component {
 		}
 
 		const render = () => {
+			// console.log("RENDER")
+
 			// make the pipe and bird moving
 			index++;
 
@@ -121,12 +124,17 @@ class App extends Component {
 			}
 			// draw bird
 			if (gamePlaying) {
-				ctx.drawImage(img, 432, Math.floor((index % 9) / 3) * size[1], ...size, cTenth, flyHeight, ...size);
+				// ctx.drawImage(img, 432, Math.floor((index % 9) / 3) * size[1], ...size, cTenth, flyHeight, ...size);
+				ctx.drawImage(birds[index % birds.length], cTenth, flyHeight, ...size);
+
 				flight += gravity;
 				flyHeight = Math.min(flyHeight + flight, canvas.height - size[1]);
 			} else {
-				ctx.drawImage(img, 432, Math.floor((index % 9) / 3) * size[1], ...size, ((canvas.width / 2) - size[0] / 2), flyHeight, ...size);
+				// ctx.drawImage(img, 432, Math.floor((index % 9) / 3) * size[1], ...size, ((canvas.width / 2) - size[0] / 2), flyHeight, ...size);
+				ctx.drawImage(birds[index % birds.length], ((canvas.width / 2) - size[0] / 2), flyHeight, ...size);
+
 				flyHeight = (canvas.height / 2) - (size[1] / 2);
+
 				// text accueil
 				ctx.fillText(`Best score : ${bestScore}`, 85, 245);
 				ctx.fillText('Click to play', 90, 535);
@@ -142,7 +150,7 @@ class App extends Component {
 
 // launch setup
 		setup();
-		img.onload = render;
+		background.onload = render;
 
 // start game
 		document.addEventListener('click', () => {
