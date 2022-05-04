@@ -25,15 +25,18 @@ class App extends Component {
 		bird2.src = "https://i.ibb.co/Vw854hc/bird2.png"
 		bird3.src = "https://i.ibb.co/C2c7cWP/bird3.png"
 
+		if (topPipe.width === bottomPipe.width && topPipe.height === bottomPipe.height) console.log("Correct")
+		else console.log("INCORRECT")
 
 
 // general settings
 		let gamePlaying = false;
 		const gravity = .5;
 		const speed = 6.2;
-		const size = [51, 36];
+		const size = [bird1.width, bird1.height];
 		const jump = -11.5;
 		const cTenth = (canvas.width / 10);
+		const spaceBetweenPipe = 4 * size[0]
 
 		let index = 0,
 			bestScore = 0,
@@ -55,7 +58,7 @@ class App extends Component {
 // pipe settings
 		const pipeWidth = 78;
 		const pipeGap = 270;
-		const pipeLoc = () => (Math.random() * (canvas.height - pipeGap));
+		const pipeLoc = () => ((Math.random() * (canvas.height - spaceBetweenPipe)) % topPipe.height);
 
 		const setup = () => {
 			currentScore = 0;
@@ -89,9 +92,10 @@ class App extends Component {
 					pipe[0] -= speed;
 
 					// top pipe
-					ctx.drawImage(img, 432, 588 - pipe[1], pipeWidth, pipe[1], pipe[0], 0, pipeWidth, pipe[1]);
+					ctx.drawImage(topPipe, pipe[0], pipe[1] - topPipe.height, topPipe.width, topPipe.height);
 					// bottom pipe
-					ctx.drawImage(img, 432 + pipeWidth, 108, pipeWidth, canvas.height - pipe[1] + pipeGap, pipe[0], pipe[1] + pipeGap, pipeWidth, canvas.height - pipe[1] + pipeGap);
+					ctx.drawImage(bottomPipe, pipe[0], pipe[1] + spaceBetweenPipe, bottomPipe.width, bottomPipe.height);
+
 
 					// give 1 point & create new pipe
 					if(pipe[0] <= -pipeWidth){
