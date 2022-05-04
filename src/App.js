@@ -3,7 +3,6 @@ import bridge from '@vkontakte/vk-bridge';
 import { View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol } from '@vkontakte/vkui';
 // import '@vkontakte/vkui/dist/vkui.css';
 
-
 class App extends Component {
 
 	componentDidMount(){
@@ -11,6 +10,9 @@ class App extends Component {
 		const ctx = canvas.getContext('2d');
 		const img = new Image();
 		img.src = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
+
+		const background = new Image()
+		background.src = "https://i.ibb.co/TH4dXYh/background.png"
 
 // general settings
 		let gamePlaying = false;
@@ -63,9 +65,9 @@ class App extends Component {
 			// ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 			// background first part
-			ctx.drawImage(img, 0, 0, canvas.width, canvas.height, -((index * (speed / 2)) % canvas.width) + canvas.width, 0, canvas.width, canvas.height);
+			ctx.drawImage(background, -((index * (speed / 2)) % canvas.width) + canvas.width, 0, canvas.width, canvas.height);
 			// background second part
-			ctx.drawImage(img, 0, 0, canvas.width, canvas.height, -(index * (speed / 2)) % canvas.width, 0, canvas.width, canvas.height);
+			ctx.drawImage(background, -(index * (speed / 2)) % canvas.width, 0, canvas.width, canvas.height);
 
 			// pipe display
 			if (gamePlaying){
