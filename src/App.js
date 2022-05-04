@@ -25,8 +25,17 @@ class App extends Component {
 			flight,
 			flyHeight,
 			currentScore,
-			pipe,
 			pipes;
+
+
+
+		canvas.height = window.innerHeight;
+
+		console.log(canvas.width, canvas.height)
+
+
+
+
 
 // pipe settings
 		const pipeWidth = 78;
@@ -41,7 +50,10 @@ class App extends Component {
 			flyHeight = (canvas.height / 2) - (size[1] / 2);
 
 			// setup first 3 pipes
-			pipes = Array(3).fill().map((a, i) => [canvas.width + (i * (pipeGap + pipeWidth)), pipeLoc()]);
+			pipes = Array(3).fill().map((a, i) => {
+				// console.log(a, i);
+				return [canvas.width + (i * (pipeGap + pipeWidth)), pipeLoc()]
+			});
 		}
 
 		const render = () => {
@@ -117,7 +129,7 @@ class App extends Component {
 		document.addEventListener('click', () => gamePlaying = true);
 		window.onclick = () => flight = jump;
 
-		console.log(gamePlaying)
+		// console.log(gamePlaying)
 	}
 
 render() {
@@ -131,7 +143,7 @@ render() {
 				</div>
 			</header>
 
-			<canvas id="canvas" width="431" height="768"></canvas>
+			<canvas id="canvas" width="431"></canvas>
 		</div>
 
 	);

@@ -21,3 +21,12 @@ h1 {
     padding: 8px 6px;
     background: #5EE270;
 }
+
+/*
+canvas {
+    !*position: absolute;*!
+    top: 0;
+    left: 0;
+    width: 431px;
+    height: 100vh;
+}*/
