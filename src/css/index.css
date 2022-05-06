@@ -5,10 +5,14 @@ body {
     text-align: center;
     font-family: 'Press Start 2P', cursive;
     user-select: none;
+    /*min-height: 768px;*/
+    /*max-height: 1080px;*/
+    /*min-width: 431px;*/
+    /*max-width: 1920px;*/
 }
 header {
     margin: 0 auto;
-    width: 100%;
+    /*width: 100%;*/
 }
 h1 {
     background: url("./../img/clouds.png");
@@ -24,8 +28,8 @@ h1 {
 
 canvas {
     /*position: absolute;*/
-    top: 0;
-    left: 0;
+    /*top: 0;*/
+    /*left: 0;*/
+    height: 100%;
     width: 100%;
-    /*height: 100vh;*/
 }

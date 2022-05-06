@@ -3,6 +3,8 @@ import bridge from '@vkontakte/vk-bridge';
 import { View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol } from '@vkontakte/vkui';
 // import '@vkontakte/vkui/dist/vkui.css';
 
+import  './css/index.css'
+
 import backgroundImg from './img/background.png'
 import topPipeImg from './img/topPipe.png'
 import bottomPipeImg from './img/bottomPipe.png'
@@ -15,12 +17,13 @@ class App extends Component {
 
 	componentDidMount(){
 
-		const canvas = document.getElementById('canvas');
+		const canvas = document.querySelector('canvas');
 		const ctx = canvas.getContext('2d');
 
-		canvas.height = window.innerHeight - document.querySelector('header').clientHeight; // it must be changed
+		canvas.height = window.innerHeight - document.querySelector('header').clientHeight - 17; // it must be changed
 		canvas.width = window.innerWidth;
 
+		console.log(canvas.width, canvas.height)
 
 		const background = new Image()
 		const topPipe = new Image()
@@ -68,15 +71,15 @@ class App extends Component {
 
 
 
-		console.log(canvas.width, canvas.height)
 
 
 
 
 
 // pipe settings
-		const pipeGap = 0.7 * canvas.width * kWidth;
-		const pipeLoc = () => ((Math.random() * (canvas.height - spaceBetweenPipe)) % topPipe.height);
+		const pipeGap = 300 * kHeight;
+		const offset = 0.1 * canvas.height;
+		const pipeLoc = () => (((canvas.height / 2 - 0.5 * spaceBetweenPipe)  + (Math.random() - 0.5) * (canvas.height - 2 * spaceBetweenPipe - offset)) % (topPipe.height * kHeight));
 
 
 		const fillEllipse = (x, y, radiusX, radiusY, rotation, color) => {
@@ -103,7 +106,10 @@ class App extends Component {
 		}
 
 		const render = () => {
+
 			// console.log("RENDER")
+
+
 
 			// make the pipe and bird moving
 			index++;
@@ -156,7 +162,8 @@ class App extends Component {
 					fillEllipse(cTenth + size[0], flyHeight + size[1], 5, 5, 0, 'red')
 					*/
 
-					console.log(pipe[0], pipe[1], spaceBetweenPipe)
+
+					// console.log(pipe[0], pipe[1], spaceBetweenPipe)
 
 
 					// if hit the pipe, end
@@ -186,8 +193,8 @@ class App extends Component {
 				flyHeight = (canvas.height / 2) - (size[1] / 2);
 
 				// text accueil
-				ctx.fillText(`Best score : ${bestScore}`, 85, 245);
-				ctx.fillText('Click to play', 90, 535);
+				ctx.fillText(`Best score : ${bestScore}`, canvas.width / 2 - 120, canvas.height / 2 - 120);
+				ctx.fillText('Click to play', canvas.width / 2 - 120, canvas.height / 2 + 120);
 				ctx.font = "bold 30px courier";
 			}
 
@@ -213,9 +220,19 @@ class App extends Component {
 		}
 
 		// console.log(gamePlaying)
+
+
+
 	}
 
 render() {
+	// const styles = {
+	// 	canvas : {
+	// 		width: innerWidth,
+	// 		height: innerHeight
+	// 	}
+	// }
+
 	return (
 		<div>
 			<header>
@@ -226,7 +243,9 @@ render() {
 				</div>
 			</header>
 
-			<canvas id="canvas" width="431"></canvas>
+			{/*<canvas style={styles.canvas}></canvas>*/}
+			<canvas ></canvas>
+
 		</div>
 
 	);
