@@ -198,7 +198,7 @@ class App extends Component {
 				flyHeight = (canvas.height / 2) - (size[1] / 2);
 
 				// text accueil
-				ctx.fillText(`Best score : ${bestScore}`, canvas.width / 2 - 120, canvas.height / 2 - 120);
+				ctx.fillText(`Best score : ${bestScore}`, canvas.width / 2 - 120 - 5, canvas.height / 2 - 120);
 				ctx.fillText('Click to play', canvas.width / 2 - 120, canvas.height / 2 + 120);
 				ctx.font = "bold 30px courier";
 			}
