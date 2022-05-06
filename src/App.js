@@ -94,6 +94,8 @@ class App extends Component {
 			ctx.fill();
 		}
 
+
+
 		const setup = () => {
 			currentScore = 0;
 			flight = jump;
@@ -108,13 +110,22 @@ class App extends Component {
 				// console.log(height, typeof height)
 				return [canvas.width + (i * (pipeGap + topPipe.width)), height]
 			});
+
+			document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
+			document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
 		}
+
+		// let penultimateTime = -1;
+		// let lastTime = -1;
 
 		const render = () => {
 
 			// console.log("RENDER")
 
+			// penultimateTime = lastTime
+			// lastTime = performance.now()
 
+			// if (index === 5) console.log(lastTime - penultimateTime)
 
 			// make the pipe and bird moving
 			index++;
@@ -150,6 +161,9 @@ class App extends Component {
 						// remove & create new pipe
 						pipes = [...pipes.slice(1), [pipes[pipes.length-1][0] + pipeGap + topPipe.width, pipeLoc()]];
 						console.log(pipes);
+
+						document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
+						document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
 					}
 
 
@@ -203,17 +217,16 @@ class App extends Component {
 				ctx.font = "bold 30px courier";
 			}
 
-			document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
-			document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
+
 
 			// tell the browser to perform anim
-			window.requestAnimationFrame(render);
+			// window.requestAnimationFrame(render);
 		}
 
 // launch setup
 		setup();
-		background.onload = render;
-
+		// background.onload = render;
+		setInterval(render, 1000 / 60)
 // start game
 		document.addEventListener('click', () => {
 			// console.log("addEventListener")
