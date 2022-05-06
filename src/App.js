@@ -54,9 +54,13 @@ class App extends Component {
 		let gamePlaying = false;
 		const gravity = .5;
 		const speed = 5.2;
-		const size = [51, 36]; // must be changed in another picture
 		const jump = -11.5;
 		const cTenth = (canvas.width / 10);
+
+		const size = [51, 36]; // must be changed in another picture
+		topPipe.width = 78; // must be changed in another picture
+		topPipe.height = 480; // must be changed in another picture
+
 		const spaceBetweenPipe = 4 * size[0]
 
 
@@ -77,6 +81,7 @@ class App extends Component {
 
 
 // pipe settings
+
 		const pipeGap = 300 * kHeight;
 		const offset = 0.1 * canvas.height;
 		const pipeLoc = () => (((canvas.height / 2 - 0.5 * spaceBetweenPipe)  + (Math.random() - 0.5) * (canvas.height - 2 * spaceBetweenPipe - offset)) % (topPipe.height * kHeight));
