@@ -8,7 +8,7 @@ import './css/index.css'
 import backgroundImg from './img/miss/background.jpg'
 import topPipeImg from './img/miss/topPipe.png'
 import bottomPipeImg from './img/miss/bottomPipe.png'
-import bird1Img from './img/bird1.png'
+import bird1Img from './img/miss/face2.png'
 import bird2Img from './img/bird2.png'
 import bird3Img from './img/bird3.png'
 
@@ -31,7 +31,7 @@ class App extends Component {
         const bird1 = new Image()
         const bird2 = new Image()
         const bird3 = new Image()
-        const birds = [bird1, bird2, bird3]
+        const birds = [bird1]
 
         background.src = backgroundImg
         topPipe.src = topPipeImg
@@ -54,10 +54,11 @@ class App extends Component {
         let gamePlaying = false;
         let gravity;
         let speed;
-        let jump = -11.5;
+        // let jump = -11.5;
+        let jump = -10;
         const cTenth = (canvas.width / 10);
 
-        const size = [51, 36]; // must be changed in another picture
+        const size = [65, 90]; // must be changed in another picture
         topPipe.width = 78; // must be changed in another picture
         topPipe.height = 480; // must be changed in another picture
 
@@ -71,7 +72,7 @@ class App extends Component {
 
         const pipeGap = 300 * kHeight;
         const offset = 0.1 * canvas.height;
-        const pipeLoc = () => (((canvas.height / 2 - 0.5 * spaceBetweenPipe) + (Math.random() - 0.5) * (canvas.height - 2 * spaceBetweenPipe - offset)) % (topPipe.height * kHeight));
+        const pipeLoc = () => (((canvas.height - spaceBetweenPipe) / 2 + (Math.random() - 0.5) * ((canvas.height - spaceBetweenPipe) - offset)) % (topPipe.height * kHeight));
 
 
         const fillEllipse = (x, y, radiusX, radiusY, rotation, color) => {
@@ -310,7 +311,7 @@ class App extends Component {
 
 // launch setup
         setup();
-        bird3.onload = checkFPS;
+        bird1.onload = checkFPS;
         // setInterval(render, 1000 / 60)
 // start game
         document.addEventListener('click', () => {
@@ -325,19 +326,16 @@ class App extends Component {
         // console.log(gamePlaying)
 
 
+
+
     }
 
     render() {
-        // const styles = {
-        // 	canvas : {
-        // 		width: innerWidth,
-        // 		height: innerHeight
-        // 	}
-        // }
-
         return (<div>
                 <header>
-                    <h1>Miss USATU</h1>
+                    <div id="clouds">
+                        <h1>Miss IATM</h1>
+                    </div>
                     <div className="score-container">
                         <div id="bestScore"></div>
                         <div id="currentScore"></div>
