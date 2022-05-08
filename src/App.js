@@ -5,9 +5,9 @@ import {View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitL
 
 import './css/index.css'
 
-import backgroundImg from './img/background.png'
-import topPipeImg from './img/topPipe.png'
-import bottomPipeImg from './img/bottomPipe.png'
+import backgroundImg from './img/miss/background.jpg'
+import topPipeImg from './img/miss/topPipe.png'
+import bottomPipeImg from './img/miss/bottomPipe.png'
 import bird1Img from './img/bird1.png'
 import bird2Img from './img/bird2.png'
 import bird3Img from './img/bird3.png'
@@ -337,7 +337,7 @@ class App extends Component {
 
         return (<div>
                 <header>
-                    <h1>Floppy Bird</h1>
+                    <h1>Miss USATU</h1>
                     <div className="score-container">
                         <div id="bestScore"></div>
                         <div id="currentScore"></div>
