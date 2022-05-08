@@ -48,7 +48,7 @@ class App extends Component {
 
 // general settings
 // 		const kHeight = canvas.height / 730;
-        const kHeight = canvas.height / 600;
+        const kHeight = canvas.height / 700;
         const kWidth = canvas.width / 431;
 
         let gamePlaying = false;
@@ -70,7 +70,8 @@ class App extends Component {
 
 // pipe settings
 
-        const pipeGap = 300 * kHeight;
+        // const pipeGap = 300 * kHeight;
+        const pipeGap = 0.8 * canvas.width;
         const offset = 0.1 * canvas.height;
         const pipeLoc = () => (((canvas.height - spaceBetweenPipe) / 2 + (Math.random() - 0.5) * ((canvas.height - spaceBetweenPipe) - offset)) % (topPipe.height * kHeight));
 
@@ -95,7 +96,7 @@ class App extends Component {
                 // console.log(a, i);
                 let height = pipeLoc()
                 // console.log(height, typeof height)
-                return [canvas.width + (i * (pipeGap + topPipe.width)), height]
+                return [canvas.width + i * pipeGap, height]
             });
 
             document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
@@ -285,10 +286,10 @@ class App extends Component {
                 avg = sum / (index - offset);
 
 
-                console.log(`Index: ${(index - offset)}`);
-                console.log(`Sum: ${sum}`);
-                console.log(`FPS: ${fps}`);
-                console.log(`AVG: ${avg}`);
+                // console.log(`Index: ${(index - offset)}`);
+                // console.log(`Sum: ${sum}`);
+                // console.log(`FPS: ${fps}`);
+                // console.log(`AVG: ${avg}`);
                 // console.log(sum === Infinity);
 
                 if (sum === Infinity) {
