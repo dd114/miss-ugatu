@@ -49,7 +49,8 @@ class App extends Component {
 // general settings
 // 		const kHeight = canvas.height / 730;
         const kHeight = canvas.height / 700;
-        const kWidth = canvas.width / 431;
+        // const kWidth = canvas.width / 431;
+        const kWidth = canvas.width / 630;
 
         let gamePlaying = false;
         let gravity;
@@ -75,6 +76,7 @@ class App extends Component {
         const offset = 0.1 * canvas.height;
         const pipeLoc = () => (((canvas.height - spaceBetweenPipe) / 2 + (Math.random() - 0.5) * ((canvas.height - spaceBetweenPipe) - offset)) % (topPipe.height * kHeight));
 
+        console.log('pipeGap:', pipeGap)
 
         const fillEllipse = (x, y, radiusX, radiusY, rotation, color) => {
             ctx.fillStyle = color;
@@ -242,7 +244,7 @@ class App extends Component {
                 kFrameRate = 60 / currentFPS
 
                 gravity = .5 * kFrameRate;
-                speed = 5.2 * kFrameRate;
+                speed = 5.2 * kWidth * kFrameRate;
                 // jump = -11.5 * kFrameRate;
 
                 render();
