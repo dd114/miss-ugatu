@@ -19,25 +19,24 @@ import Results from "./Results";
 const InitialView = () => {
 
 
-
     const [activePanel, setActivePanel] = useState('game')
 
     const onStoryChange = (e) => {
         setActivePanel(e.currentTarget.dataset.story)
     }
 
-/*
-    const [scheme, setScheme] = useState('light')
-    useEffect(() => {
-        bridge.subscribe(({detail: {type, data}}) => {
-            if (type === 'VKWebAppUpdateConfig') {
-                console.log('data.scheme', data.scheme.split('_')[1])
-                setScheme(data.scheme.split('_')[1])
-            }
-        });
+    /*
+        const [scheme, setScheme] = useState('light')
+        useEffect(() => {
+            bridge.subscribe(({detail: {type, data}}) => {
+                if (type === 'VKWebAppUpdateConfig') {
+                    console.log('data.scheme', data.scheme.split('_')[1])
+                    setScheme(data.scheme.split('_')[1])
+                }
+            });
 
-    }, []);
-*/
+        }, []);
+    */
 
     return (
         <ConfigProvider>

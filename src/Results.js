@@ -1,15 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import {
-    View,
-    Panel,
-    AdaptivityProvider,
-    AppRoot,
-    ConfigProvider,
-    SplitLayout,
-    SplitCol,
-    Root,
-    Epic, TabbarItem, Tabbar, Cell, Avatar, Group, PanelHeader
+    Cell, Avatar, Group, PanelHeader
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import {collection, getDocs, limit, orderBy, query} from "firebase/firestore";
@@ -56,10 +48,10 @@ const Results = () => {
         <React.Fragment>
             <PanelHeader>Best players</PanelHeader>
             <Group>
-            {rating.map(
-                (v, i) => <Cell key={i} before={<Avatar src={v.avatar}></Avatar>}
-                                after={'Total: ' + v.bestScore}>{v.Name + ' ' + v.Surname}</Cell>
-            )}
+                {rating.map(
+                    (v, i) => <Cell key={i} before={<Avatar src={v.avatar}></Avatar>}
+                                    after={'Total: ' + v.bestScore}>{v.Name + ' ' + v.Surname}</Cell>
+                )}
             </Group>
         </React.Fragment>
     )

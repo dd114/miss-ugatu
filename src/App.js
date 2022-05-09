@@ -1,6 +1,5 @@
 import React, {useState, useEffect, Component} from 'react';
 import bridge from '@vkontakte/vk-bridge';
-import {View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol} from '@vkontakte/vkui';
 // import '@vkontakte/vkui/dist/vkui.css';
 
 import './css/index.css'
@@ -11,8 +10,6 @@ import topPipeImg from './img/miss/topPipe.png'
 import bottomPipeImg from './img/miss/bottomPipe.png'
 import bird1Img from './img/miss/face2.png'
 import fireStore from "./DB";
-// import bird2Img from './img/bird2.png'
-// import bird3Img from './img/bird3.png'
 
 
 class App extends Component {
@@ -127,7 +124,7 @@ class App extends Component {
 
         // const pipeGap = 300 * kHeight;
         const pipeGap = 0.8 * canvas.width;
-        const offset = 0.1 * canvas.height;
+        const offset = 0.05 * canvas.height;
         const pipeLoc = () => (((canvas.height - spaceBetweenPipe) / 2 + (Math.random() - 0.5) * ((canvas.height - spaceBetweenPipe) - offset)) % (topPipe.height * kHeight));
 
         console.log('pipeGap:', pipeGap)
@@ -170,10 +167,6 @@ class App extends Component {
 
             // console.log("RENDER")
 
-            // penultimateTime = lastTime
-            // lastTime = performance.now()
-
-            // if (index === 5) console.log(lastTime - penultimateTime)
 
             // make the pipe and bird moving
             index++;
@@ -217,24 +210,6 @@ class App extends Component {
                         // document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
                         // document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
                     }
-
-
-                    /*
-                    console.log([
-                        pipe[0] <= cTenth + size[0],
-                        pipe[0] + topPipe.width >= cTenth,
-                        pipe[1] > flyHeight || ((pipe[1] + spaceBetweenPipe) < (flyHeight + size[1]))
-                    ])
-                    */
-
-                    /*
-                    fillEllipse(pipe[0], pipe[1] + spaceBetweenPipe, 5, 5, 0, 'blue')
-                    fillEllipse(pipe[0], pipe[1], 5, 5, 0, 'blue')
-                    fillEllipse(cTenth + size[0], flyHeight + size[1], 5, 5, 0, 'red')
-                    */
-
-
-                    // console.log(pipe[0], pipe[1], spaceBetweenPipe)
 
 
                     // if hit the pipe, end
@@ -401,9 +376,6 @@ class App extends Component {
         // .then((data) => console.log(data))
         // .catch(error => console.log(error))
 
-
-        // .catch(error => console.log(error))
-
         // чтобы ловить события в консоль:
 
         /*
@@ -419,9 +391,6 @@ class App extends Component {
 
 
     }
-
-
-
 
 
     render() {
