@@ -43,7 +43,7 @@ class App extends Component {
                         let date = new Date()
                         setDoc(doc(fireStore, 'users', data.id.toString()), {
                             bestScore: 0, Name: data.first_name, Surname: data.last_name,
-                            timeOfBestScore: date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear(),
+                            timeOfBestScore: date.toString(),
                             idVK: data.id
                         });
                     }
@@ -220,8 +220,9 @@ class App extends Component {
                         setup();
 
                         if (this.state.bestScore <= this.state.constBestScore) return
+                        let date = new Date
                         updateDoc(doc(fireStore, 'users', this.state.id.toString()), {
-                            bestScore: this.state.bestScore
+                            bestScore: this.state.bestScore, timeOfBestScore: date.toString()
                         })
                     }
                 })
