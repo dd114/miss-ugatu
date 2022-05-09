@@ -4,23 +4,77 @@ import {View, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitL
 // import '@vkontakte/vkui/dist/vkui.css';
 
 import './css/index.css'
+import {collection, doc, updateDoc, getDoc, setDoc} from 'firebase/firestore'
 
 import backgroundImg from './img/miss/background.jpg'
 import topPipeImg from './img/miss/topPipe.png'
 import bottomPipeImg from './img/miss/bottomPipe.png'
 import bird1Img from './img/miss/face2.png'
-import bird2Img from './img/bird2.png'
-import bird3Img from './img/bird3.png'
+import fireStore from "./DB";
+// import bird2Img from './img/bird2.png'
+// import bird3Img from './img/bird3.png'
 
 
 class App extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            bestScore: 0,
+            id: -1,
+            currentScore: 0,
+            constBestScore: 0
+        }
+
+
+        bridge.send('VKWebAppGetUserInfo')
+            .then((data) => {
+                console.log('data.id', data.id)
+
+                this.setState({
+                    id: data.id.toString()
+                })
+
+                this.getData(data.id).then((result) => {
+
+                    if (result !== false) {
+                        this.setState({
+                            bestScore: result.bestScore,
+                            constBestScore: result.bestScore
+                        })
+                    } else {
+                        let date = new Date()
+                        setDoc(doc(fireStore, 'users', data.id.toString()), {
+                            bestScore: 0, Name: data.first_name, Surname: data.last_name,
+                            timeOfBestScore: date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear(),
+                            idVK: data.id
+                        });
+                    }
+
+                })
+            })
+
+
+    }
+
+    async getData(id) {
+        const docRef = doc(fireStore, "users", id.toString());
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists())
+            return false;
+        return docSnap.data()
+    }
+
+    componentWillUnmount() {
+
+    }
 
     componentDidMount() {
 
         const canvas = document.querySelector('canvas');
         const ctx = canvas.getContext('2d');
 
-        canvas.height = window.innerHeight - document.querySelector('header').clientHeight - 17; // it must be changed
+        canvas.height = window.innerHeight - document.querySelector('header').clientHeight - 17 - 30; // it must be changed
         canvas.width = window.innerWidth;
 
         console.log(canvas.width, canvas.height)
@@ -29,16 +83,16 @@ class App extends Component {
         const topPipe = new Image()
         const bottomPipe = new Image()
         const bird1 = new Image()
-        const bird2 = new Image()
-        const bird3 = new Image()
+        // const bird2 = new Image()
+        // const bird3 = new Image()
         const birds = [bird1]
 
         background.src = backgroundImg
         topPipe.src = topPipeImg
         bottomPipe.src = bottomPipeImg
         bird1.src = bird1Img
-        bird2.src = bird2Img
-        bird3.src = bird3Img
+        // bird2.src = bird2Img
+        //         // bird3.src = bird3Img
 
         if (topPipe.width === bottomPipe.width && topPipe.height === bottomPipe.height)
             console.log("Correct")
@@ -66,7 +120,7 @@ class App extends Component {
         const spaceBetweenPipe = 4 * size[0]
 
 
-        let index = 0, bestScore = 0, flight, flyHeight, currentScore, pipes;
+        let index = 0, flight, flyHeight, pipes;
 
 
 // pipe settings
@@ -87,7 +141,10 @@ class App extends Component {
 
 
         const setup = () => {
-            currentScore = 0;
+            // currentScore = 0;
+            this.setState({
+                currentScore: 0
+            })
             flight = jump;
 
             // set initial flyHeight (middle of screen - size of the bird)
@@ -101,8 +158,9 @@ class App extends Component {
                 return [canvas.width + i * pipeGap, height]
             });
 
-            document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
-            document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
+            // document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
+            // document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
+
         }
 
         // let penultimateTime = -1;
@@ -142,16 +200,22 @@ class App extends Component {
 
                     // give 1 point & create new pipe
                     if (pipe[0] < -topPipe.width * kWidth) {
-                        currentScore++;
-                        // check if it's the best score
-                        bestScore = Math.max(bestScore, currentScore);
+                        // currentScore++;
 
+                        // check if it's the best score
+                        // bestScore = ;
+                        this.setState({
+                            bestScore: Math.max(this.state.bestScore, this.state.currentScore + 1),
+                            currentScore: this.state.currentScore + 1
+                        })
+
+                        // console.log('State:', this.state)
                         // remove & create new pipe
                         pipes = [...pipes.slice(1), [pipes[pipes.length - 1][0] + pipeGap + topPipe.width, pipeLoc()]];
-                        console.log(pipes);
+                        // console.log(pipes);
 
-                        document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
-                        document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
+                        // document.getElementById('bestScore').innerHTML = `Best : ${bestScore}`;
+                        // document.getElementById('currentScore').innerHTML = `Current : ${currentScore}`;
                     }
 
 
@@ -175,10 +239,15 @@ class App extends Component {
 
                     // if hit the pipe, end
                     if ([pipe[0] <= cTenth + size[0], pipe[0] + topPipe.width * kWidth >= cTenth, pipe[1] > flyHeight || ((pipe[1] + spaceBetweenPipe) < (flyHeight + size[1]))].every(elem => elem)) {
-                        console.log('HIT', pipes)
-                        console.log('Size', size)
+                        // console.log('HIT', pipes)
+                        // console.log('Size', size)
                         gamePlaying = false;
                         setup();
+
+                        if (this.state.bestScore <= this.state.constBestScore) return
+                        updateDoc(doc(fireStore, 'users', this.state.id.toString()), {
+                            bestScore: this.state.bestScore
+                        })
                     }
                 })
             }
@@ -196,7 +265,7 @@ class App extends Component {
                 flyHeight = (canvas.height / 2) - (size[1] / 2);
 
                 // text accueil
-                ctx.fillText(`Best score : ${bestScore}`, canvas.width / 2 - 120 - 5, canvas.height / 2 - 120);
+                ctx.fillText(`Best score : ${this.state.bestScore}`, canvas.width / 2 - 120 - 5, canvas.height / 2 - 120);
                 ctx.fillText('Click to play', canvas.width / 2 - 120, canvas.height / 2 + 120);
                 ctx.font = "bold 30px courier";
             }
@@ -205,8 +274,6 @@ class App extends Component {
             // tell the browser to perform anim
             window.requestAnimationFrame(render);
         }
-
-
 
 
         const checkFPS = () => {
@@ -223,7 +290,7 @@ class App extends Component {
             }
 
             function cancelAnimation() {
-                console.log("CANCEL ANIMATION")
+                // console.log("CANCEL ANIMATION")
                 console.log('AVG FPS =', avg);
 
                 cancel = true;
@@ -232,12 +299,13 @@ class App extends Component {
                 let kFrameRate;
                 if (avg > 45 && avg < 80) {
                     currentFPS = 60;
-                } else if (avg > 80 && avg < 110){
+                } else if (avg > 80 && avg < 110) {
                     currentFPS = 90;
-                } else if (avg > 110 && avg < 135){
+                } else if (avg > 110 && avg < 135) {
                     currentFPS = 120;
                 } else {
                     console.error("App has been crashed", "currentFPS =", currentFPS)
+                    window.location.reload()
                     return
                 }
 
@@ -257,8 +325,6 @@ class App extends Component {
 
                 let time2 = performance.now()
                 let fps = 1000 / (time2 - time);
-
-
 
 
                 if (fps === Infinity) {
@@ -329,19 +395,47 @@ class App extends Component {
         // console.log(gamePlaying)
 
 
+        console.log('VK events')
+
+        // bridge.send("VKWebAppShowLeaderBoardBox", {user_result: 100})
+        // .then((data) => console.log(data))
+        // .catch(error => console.log(error))
+
+
+        // .catch(error => console.log(error))
+
+        // чтобы ловить события в консоль:
+
+        /*
+                bridge.subscribe((e) => {
+                    if (e.detail.type !== undefined) {
+                        console.log('bridge event', e)
+                    }
+                });
+        */
+
+
+        // this.getData().then(r => console.log('getData:', r))
 
 
     }
 
+
+
+
+
     render() {
-        return (<div>
+        return (
+            <div>
                 <header>
                     <div id="clouds">
                         <h1>Miss IATM</h1>
                     </div>
                     <div className="score-container">
-                        <div id="bestScore"></div>
-                        <div id="currentScore"></div>
+                        <div id="bestScore">Best : {this.state.bestScore}</div>
+
+                        <div id="currentScore">Current : {this.state.currentScore}</div>
+
                     </div>
                 </header>
 

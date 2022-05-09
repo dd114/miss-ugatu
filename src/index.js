@@ -1,18 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import bridge from "@vkontakte/vk-bridge";
-import App from "./App";
+import InitialView from "./InitialView";
 
 
 // Init VK  Mini App
-bridge.send("VKWebAppInit", {});
+bridge.send("VKWebAppInit", {})
+    // .then((data) => console.log("VKWebAppInit has received", data.result))
+    // .catch(error => console.log(error));
 
-// чтобы ловить события в консоль:
-bridge.subscribe((e) => {
-  console.log('bridge event', e);
-});
 
-ReactDOM.render(<App/>, document.getElementById("root"));
+
+
+ReactDOM.render(<InitialView/>, document.getElementById("root"));
 
 if (process.env.NODE_ENV === "development") {
   import("./eruda").then(({ default: eruda }) => {}); //runtime download
