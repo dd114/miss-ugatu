@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+::-webkit-scrollbar {
+    width: 0;
+}
+
 body {
     margin: 0;
     text-align: center;
@@ -34,10 +38,6 @@ header {
     background: #9ae191;
 
     font-family: 'Press Start 2P', cursive;
-}
-
-.icon {
-    padding: 0 0 0 5%;
 }
 
 canvas {

@@ -9,7 +9,7 @@ import {
     SplitLayout,
     SplitCol,
     Root,
-    Epic, TabbarItem, Tabbar, Cell, Avatar
+    Epic, TabbarItem, Tabbar, Cell, Avatar, Group, PanelHeader
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import {collection, getDocs, limit, orderBy, query} from "firebase/firestore";
@@ -21,7 +21,7 @@ const Results = () => {
     const [rating, setRating] = useState([])
 
     useEffect(() => {
-        const ref = query(collection(fireStore, 'users'), orderBy('bestScore'), limit(100))
+        const ref = query(collection(fireStore, 'users'), orderBy('bestScore'), limit(50))
         // const q = query(collection(db, "cities"), where("capital", "==", true));
 
         getDocs(ref).then(async (docs) => {
@@ -54,10 +54,13 @@ const Results = () => {
 
     return (
         <React.Fragment>
+            <PanelHeader>Best players</PanelHeader>
+            <Group>
             {rating.map(
                 (v, i) => <Cell key={i} before={<Avatar src={v.avatar}></Avatar>}
                                 after={'Total: ' + v.bestScore}>{v.Name + ' ' + v.Surname}</Cell>
             )}
+            </Group>
         </React.Fragment>
     )
 }

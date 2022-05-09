@@ -7,8 +7,6 @@ import {
     AppRoot,
     ConfigProvider,
     SplitLayout,
-    SplitCol,
-    Root,
     Epic, TabbarItem, Tabbar
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
@@ -82,7 +80,9 @@ const InitialView = () => {
 
                             <View id={'results'} activePanel={'results'}>
                                 <Panel id={'results'}>
+
                                     <Results/>
+
                                 </Panel>
                             </View>
 
