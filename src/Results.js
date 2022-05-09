@@ -21,7 +21,7 @@ const Results = () => {
     const [rating, setRating] = useState([])
 
     useEffect(() => {
-        const ref = query(collection(fireStore, 'users'), orderBy('bestScore'), limit(50))
+        const ref = query(collection(fireStore, 'users'), orderBy('bestScore', 'desc'), limit(50))
         // const q = query(collection(db, "cities"), where("capital", "==", true));
 
         getDocs(ref).then(async (docs) => {
